@@ -6,9 +6,11 @@ dotenv.config({
     path : "../.env"
 }); 
 
+const PORT = process.env.PORT || 8001 ; 
+
 db_connect()
 .then(()=>{
-    app.listen(3000,(req,res)=>{
+    app.listen(PORT,(req,res)=>{
         console.log('Server listening on PORT 3000'); 
     })
 })
