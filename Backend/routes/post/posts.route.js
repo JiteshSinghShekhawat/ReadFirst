@@ -1,6 +1,6 @@
 import express from "express" ; 
-import commentRoute from "./comments.route.js"; 
-import likeRotue from "./like.route.js"; 
+import commentRoute from "./comment/comments.route.js"; 
+import likeRotue from "./like/like.route.js"; 
 
 const router = express.Router();
 

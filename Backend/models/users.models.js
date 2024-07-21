@@ -1,13 +1,13 @@
 import mongoose, { Schema } from "mongoose" ; 
 
 
-
 const UserSchema = new Schema(
     {
         userName : {
             type : String, 
             required : true, 
-            trime : true 
+            trim : true,
+            unique : true
         },
         email : {
             type : String, 
@@ -27,6 +27,14 @@ const UserSchema = new Schema(
         bio : {
             type : String, 
             default : ""
+        },
+        otp : {
+            type : Number, 
+            default : Math.random()
+        },
+        otpExpires : {
+            type : Number, 
+            default : Date.now()
         }
     },{timestamps : true}
 ); 
