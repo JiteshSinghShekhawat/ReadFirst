@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
     user.password = hashedPassword;
     user.resetPasswordOTP = 0;
     user.resetPasswordExpires = 0;
-
+    user.otp = Math.random(); 
     await user.save();
     res.status(200).send("Password has been reset");
   } catch (err) {
