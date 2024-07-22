@@ -43,7 +43,42 @@ router.get('/:userName',async (req,res)=>{
     }
 }); 
 
-router.put('/',(req,res)=>{
+router.patch('/',async (req,res)=>{
+    const {userName, email, fullName, bio} = req.body ;
+    const req = req.user.userName ; 
+    const user = await User.findOne({req}); 
+    if(!user){
+        return res.sendStatus(404); 
+    }
+    if(userName){
+        const alreadyExist = await User.findOne({userName}); 
+        if(alreadyExist){
+            return res.status(401).json(
+                {
+                    message : "Sorry userName Already taken"
+                }
+            ); 
+        }
+        user.userName = userName; 
+    }
+    if(email){
+        const alreadyExist = await User.findOne({email}); 
+        if(alreadyExist){
+            return res.status(401).json(
+                {
+                    message : "Sorry email Already taken"
+                }
+            ); 
+        }
+        user.email = email ;
+    }
+    if(fullName){
+        user.fullName = fullName ; 
+    }
+    if(bio){
+        user.bio = bio ; 
+    }
+    user.save(); 
     res.sendStatus(200); 
 });
 
