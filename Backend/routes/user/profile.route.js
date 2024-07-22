@@ -1,5 +1,6 @@
 import express from "express"; 
 import { User } from "../../models/users.models.js";
+import generateJWT from "../../middlewares/generateJwt.middleware.js";
 
 const router = express.Router(); 
 
@@ -45,8 +46,8 @@ router.get('/:userName',async (req,res)=>{
 
 router.patch('/',async (req,res)=>{
     const {userName, email, fullName, bio} = req.body ;
-    const req = req.user.userName ; 
-    const user = await User.findOne({req}); 
+    const request = req.user.userName ; 
+    const user = await User.findOne({userName : request}); 
     if(!user){
         return res.sendStatus(404); 
     }
@@ -79,7 +80,10 @@ router.patch('/',async (req,res)=>{
         user.bio = bio ; 
     }
     user.save(); 
-    res.sendStatus(200); 
+    const token = generateJWT(user); 
+    res.status(200).json({
+        token : token
+    }); 
 });
 
 export default router ;
