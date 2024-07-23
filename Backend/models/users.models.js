@@ -36,6 +36,16 @@ const UserSchema = new Schema(
         otpExpires : {
             type : Number, 
             default : Date.now()
+        },
+        profilePicture: {
+          data: {
+            type: Buffer,
+            default: null
+          },
+          contentType: {
+            type: String,
+            default: null
+          }
         }
     },{timestamps : true}
 ); 
