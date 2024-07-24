@@ -1,20 +1,12 @@
-import express from "express" ; 
-import commentRoute from "./comment/comments.route.js";
-import { Post } from "../../models/post.model.js";
-import likeRotue from "./like/like.route.js"; 
-import { User } from "../../models/users.models.js";
-import { Tag } from "../../models/tag.models.js";
+import { Post } from "../models/post.model.js";
+import { User } from "../models/users.models.js";
+import { Tag } from "../models/tag.models.js";
 
-const router = express.Router();
-
-router.use('/comments',commentRoute); 
-router.use('/like',likeRotue); 
-
-router.get('/', async (req, res) => {
+export const getPost = async (req, res) => {
     try {
-      const { tags, minLikes, page = 1, limit = 10 } = req.query;
+      const { tags, minLikes, page , limit } = req.query;
       const filter = {};
-  
+      
       if (tags) {
         filter.Tags = { $in: tags.split(',').map(tag => mongoose.Types.ObjectId(tag)) };
       }
@@ -26,26 +18,27 @@ router.get('/', async (req, res) => {
       const aggregate = Post.aggregate([{ $match: filter }]);
       
       const options = {
-        page: parseInt(page) ,
-        limit: parseInt(limit) ,
+        page: parseInt(page) || 1,
+        limit: parseInt(limit) || 10,
         populate: [
           { path: 'Author', select: 'userName' },
           { path: 'Tags', select: 'tagName' }
         ],
       };
-  
+      
+      
       const result = await Post.aggregatePaginate(aggregate, options);
   
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-});
+}
 
-router.post('/',async (req,res)=>{
+export const uploadPost = async (req,res)=>{
     try{
         const {title, content, tagIds } = req.body; 
-
+      
         if(!title || !content){
             return res.status(400).json({Message : "Author , title and content are required."}); 
         }
@@ -79,6 +72,4 @@ router.post('/',async (req,res)=>{
         console.log('error creating post',e); 
         res.status(400).json({message : "Unable to post, Try again"}); 
     }
-}); 
-
-export default router ; 
+}
