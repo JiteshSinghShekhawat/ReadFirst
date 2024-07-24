@@ -8,7 +8,12 @@ const router = express.Router();
 
 router.post('/',async (req,res)=>{
     const {userName, email, password,fullName} = req.body ; 
-    
+    if(!password || !userName || !email || !fullName){
+        return res.status(401).json({
+            valid : false, 
+            message : "Field Missing fill all the fields" 
+        }); 
+    }
     try{
         let existingUser = await User.findOne({email}); 
         if(existingUser){
@@ -27,12 +32,6 @@ router.post('/',async (req,res)=>{
             )
         }; 
 
-        if(!password){
-            return res.status(401).json({
-                valid : false, 
-                message : "Password Not Found" 
-            }); 
-        }
 
         const hashedPassword = await bcrypt.hash(password,10); 
         

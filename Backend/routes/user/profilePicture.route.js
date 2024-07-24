@@ -25,8 +25,19 @@ router.post('/',jwtValid,upload.single('profilePicture'),async (req,res)=>{
             }
             user.profilePicture = profilePicture ; 
             await user.save(); 
+            res.status(200).send('Profile picture uploaded successfully');
+        }else {
+            const profilePicture = {
+                data: null,
+                contentType: null            }
+            const user = await User.findOne({userName}); 
+            if(!user){
+                return res.status(400).json({message : "user Not Found"}); 
+            }
+            user.profilePicture = profilePicture ; 
+            await user.save(); 
+            res.status(200).send('Profile Picture Removed successfully!'); 
         }
-        res.status(200).send('Profile picture uploaded successfully');
     }
     catch(e){
         console.log('Profile Uploding Error',e); 

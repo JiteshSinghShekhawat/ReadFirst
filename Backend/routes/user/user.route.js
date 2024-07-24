@@ -6,7 +6,7 @@ import resetPasswrodRouter from "./resetPassword.js";
 import updatePasswordRouter from "./updatePassword.js"; 
 import jwtValid from "../../middlewares/verifyJwt.middleware.js"; 
 import profilePictureRouter from "./profilePicture.route.js"; 
-import profileRoute from "./profile.route.js"; 
+import profileRoute from "./profile.route.js";  
 
 const router = express.Router(); 
 
@@ -16,7 +16,7 @@ router.use("/forgotPassword",forgetPasswordRouter);
 
 router.use("/resetPassword",resetPasswrodRouter); 
 
-router.use('/login',loginRoute); 
+router.use('/login',loginRoute);  
 
 router.use('/profilePicture',profilePictureRouter); 
 
