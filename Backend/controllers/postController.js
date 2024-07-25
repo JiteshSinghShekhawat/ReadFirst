@@ -102,9 +102,14 @@ export const uploadPost = async (req,res)=>{
 
 export const getPostById = async(req,res) => {
   try{
-    const id = req.params.id ; 
-    console.log(id); 
+    const {postId} = req.params ; 
+    const post = await Post.findById(postId); 
+    if(!post){
+      return res.status(400).json({message : "Post Expired or Invalid !"}); 
+    }
+    res.status(200).json({post}); 
   }catch(e){
     console.log(e); 
+    res.sendStatus(400); 
   }
 }

@@ -261,9 +261,10 @@ export const profilePhotoUpload = async (req,res)=>{
 
 
 export const userNameProfilePhoto = async (req, res) => {
-    const {userName} = req.params.userName; 
+    const {userName} = req.params; 
     try {
         const user = await User.findOne({userName}); 
+        
         if (!user) {
         return res.status(404).send('User not found');
         }

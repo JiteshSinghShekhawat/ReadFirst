@@ -10,8 +10,8 @@ const router = express.Router();
 router.use('/comments',commentRoute); 
 router.use('/like',likeRoute); 
 
-router.get('/:id',getPostById); 
 router.get('/',getPost);
+router.get('/:postId',getPostById); 
 router.post('/',uploadPost); 
 
 export default router ; 
