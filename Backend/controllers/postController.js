@@ -3,32 +3,57 @@ import { User } from "../models/users.models.js";
 import { Tag } from "../models/tag.models.js";
 
 export const getPost = async (req, res) => {
-    try {
-      const { tags, minLikes, page , limit } = req.query;
-      const filter = {};
-      
+      try {
+        const { tags, minLikes, page , limit } = req.query;
+        const filter = {};
+
       if (tags) {
         filter.Tags = { $in: tags.split(',').map(tag => mongoose.Types.ObjectId(tag)) };
       }
-  
+
       if (minLikes) {
         filter.LikeCount = { $gte: parseInt(minLikes) };
       }
-  
-      const aggregate = Post.aggregate([{ $match: filter }]);
-      
+
+      const aggregate = Post.aggregate([
+        { $match: filter },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'Author',
+                foreignField: '_id',
+                as: 'Author'
+            }
+        },
+        { $unwind: '$Author' },
+        {
+            $lookup: {
+                from: 'tags',
+                localField: 'Tags',
+                foreignField: '_id',
+                as: 'Tags'
+            }
+        },
+        {
+            $project: {
+                Title: 1,
+                Content: 1,
+                LikeCount: 1,
+                createdAt: 1,
+                updatedAt: 1,
+                'Author.userName': 1, 
+                'Tags.tagName': 1 
+            }
+        }
+      ]);
+
       const options = {
         page: parseInt(page) || 1,
         limit: parseInt(limit) || 10,
-        populate: [
-          { path: 'Author', select: 'userName' },
-          { path: 'Tags', select: 'tagName' }
-        ],
       };
-      
-      
+
       const result = await Post.aggregatePaginate(aggregate, options);
-  
+
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -72,4 +97,14 @@ export const uploadPost = async (req,res)=>{
         console.log('error creating post',e); 
         res.status(400).json({message : "Unable to post, Try again"}); 
     }
+}
+
+
+export const getPostById = async(req,res) => {
+  try{
+    const id = req.params.id ; 
+    console.log(id); 
+  }catch(e){
+    console.log(e); 
+  }
 }
