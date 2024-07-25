@@ -79,7 +79,7 @@ export const uploadPost = async (req,res)=>{
         if(tagIds){
             const tags = await Tag.find({ _id: { $in: tagIds } });
             if (tags.length !== tagIds.length) {
-            return res.status(404).json({ error: 'One or more tags not found.' });
+            return res.status(404).json({ message: 'One or more tags not found.' });
             }
         }
 
@@ -110,6 +110,53 @@ export const getPostById = async(req,res) => {
     res.status(200).json({post}); 
   }catch(e){
     console.log(e); 
+    res.sendStatus(400); 
+  }
+}
+
+export const updatePost = async(req,res) =>{
+  try{
+    const {postId,Title,Content,tagIds} = req.body; 
+    const post = await Post.findById(postId); 
+    if(!post){
+      return res.status(400).json({message : "Post Expired or Invalid !"}); 
+    }
+    if(!Title && !Content && !tagIds){
+      return res.status(400).json({message : "Please provide a field to update "}); 
+    } 
+    if(Title){
+      post.Title = Title ; 
+    }
+    if(Content){
+      post.Content = Content ; 
+    }
+    if(tagIds){
+      const tags = await Tag.find({_id : {$in : tagIds}}); 
+      if(tags.length !== tagIds.length){
+        return res.status(400).json({message : 'One or More Error tags not found'}); 
+      }
+      post.Tag = tags; 
+    }
+    await post.save(); 
+    res.status(200).json({messsage : "post Updated Successfuly"}); 
+  }catch(e){
+    console.log(`Error while updating the Post ${e}`); 
+    res.sendStatus(400); 
+  }
+}
+
+export const deletePost = async(req,res) =>{
+  try{
+    const {postId} = req.body; 
+
+    const deletedPost = await Post.findByIdAndDelete(postId); 
+
+    if(!deletedPost){
+      return res.status(404).json({message : 'Post not found'});
+    }
+    res.status(200).json({message : "Post Deleted successfully"}); 
+  }catch(e){
+    console.log(`Error while Deleting the post ${e}`); 
     res.sendStatus(400); 
   }
 }
