@@ -103,7 +103,7 @@ export const uploadPost = async (req,res)=>{
 export const getPostById = async(req,res) => {
   try{
     const {postId} = req.params ; 
-    const post = await Post.findById(postId); 
+    const post = await Post.findById(postId).populate('Author','userName').populate('Tags','Name'); 
     if(!post){
       return res.status(400).json({message : "Post Expired or Invalid !"}); 
     }
