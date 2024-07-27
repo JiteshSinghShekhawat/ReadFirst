@@ -140,6 +140,7 @@ Before you begin, make sure you have the following 💻:
    - Reaquest Header: 
    ```http
     Authorization: Bearer <your_jwt_token>
+    ```
    - Request Body:
      ```json
      {
