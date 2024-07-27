@@ -138,7 +138,7 @@ Before you begin, make sure you have the following 💻:
    - Route: `http://localhost:3000/protected/updatePassword`
    - Method: `POST`
    - Reaquest Header: 
-   ```http
+   ```
     Authorization: Bearer <your_jwt_token>
     ```
    - Request Body:
