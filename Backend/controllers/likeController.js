@@ -5,10 +5,10 @@ import {Like} from "../models/like.model.js";
 
 export const addLike = async(req,res)=>{
     try{
-        const {userId, postId, commentId} = req.body; 
+        const {postId, commentId} = req.body; 
+        const userId = req.user.id; 
 
-
-        if(!userId || (!postId && !commentId)){
+        if(!postId && !commentId){
             return res.status(400).json(
                 {
                     message : "Please Like Valid Entity"
@@ -47,6 +47,7 @@ export const addLike = async(req,res)=>{
         }else if(commentId){
             await Comment.findByIdAndUpdate(commentId, {$inc : {LikeCount : 1}}); 
         }
+        res.status(200).json({message : "Like updated Successfully"}); 
     }catch(e){
         console.log(`Error while adding like ${e}`); 
         res.sendStatus(400); 
@@ -55,7 +56,8 @@ export const addLike = async(req,res)=>{
 
 export const removeLike = async(req,res)=>{
     try{
-        const {userId, postId, commentId} = req.body; 
+        const { postId, commentId} = req.body; 
+        const userId = req.user.id; 
 
         if(!userId || (!postId && !commentId)){
             return res.status(400).json(
