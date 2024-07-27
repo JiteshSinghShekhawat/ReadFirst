@@ -137,9 +137,9 @@ Before you begin, make sure you have the following 💻:
 5. **Update Password** : To Change Password . 
    - Route: `http://localhost:3000/protected/updatePassword`
    - Method: `POST`
-   -Reaquest Header : 
+   -Reaquest Header: 
    ```http
-    Authorization: Bearer <your_jwt_token>
+    Authorization: Bearer <your_jwt_token>```
    - Request Body:
      ```json
      {
