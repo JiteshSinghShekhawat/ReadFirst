@@ -1,1 +1,1 @@
-export const DB_NAME = 'vividVoices' ; 
+export const DB_NAME = 'vividVoices';

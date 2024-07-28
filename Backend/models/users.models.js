@@ -1,54 +1,53 @@
-import mongoose, { Schema } from "mongoose" ; 
-
+import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema(
     {
-        userName : {
-            type : String, 
-            required : true, 
-            trim : true,
-            unique : true
+        userName: {
+            type: String,
+            required: true,
+            trim: true,
+            unique: true,
         },
-        email : {
-            type : String, 
-            trim : true,
-            required : true, 
-            unique : true , 
-            match : [/.+\@.+\..+/, "Please fill a valid email address"]
+        email: {
+            type: String,
+            trim: true,
+            required: true,
+            unique: true,
+            match: [/.+\@.+\..+/, 'Please fill a valid email address'],
         },
-        password : {
-            type : String, 
-            required : true
+        password: {
+            type: String,
+            required: true,
         },
-        fullName : {
-            type : String, 
-            required : true,
-            trim : true
-        }, 
-        bio : {
-            type : String, 
-            default : ""
+        fullName: {
+            type: String,
+            required: true,
+            trim: true,
         },
-        otp : {
-            type : Number, 
-            default : Math.random()
+        bio: {
+            type: String,
+            default: '',
         },
-        otpExpires : {
-            type : Number, 
-            default : Date.now()
+        otp: {
+            type: Number,
+            default: Math.random(),
+        },
+        otpExpires: {
+            type: Number,
+            default: Date.now(),
         },
         profilePicture: {
-          data: {
-            type: Buffer,
-            default: null
-          },
-          contentType: {
-            type: String,
-            default: null
-          }
-        }
-    },{timestamps : true}
-); 
+            data: {
+                type: Buffer,
+                default: null,
+            },
+            contentType: {
+                type: String,
+                default: null,
+            },
+        },
+    },
+    { timestamps: true }
+);
 
-
-export const User = mongoose.model('User',UserSchema); 
+export const User = mongoose.model('User', UserSchema);
