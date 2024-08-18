@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8001;
 db_connect()
     .then(() => {
         app.listen(PORT, (req, res) => {
-            console.log(`Server listening on PORT ${PORT}`);
+            console.log(`\nServer listening on PORT ${PORT}`);
         });
     })
     .catch((e) => {

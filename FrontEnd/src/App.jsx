@@ -3,14 +3,14 @@ import { Route, Routes } from 'react-router-dom';
 import Auth from './pages/Auth';
 
 const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Auth />} />
-      {/* <Route path="/about" element={<About />} />
+    return (
+        <Routes>
+            <Route path="/" element={<Auth />} />
+            {/* <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="*" element={<NotFound />} /> */}
-    </Routes>
-  );
+        </Routes>
+    );
 };
 
 export default App;
