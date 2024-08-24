@@ -1,6 +1,6 @@
 import express from 'express';
 import { register } from '../controllers/userController.js';
-import { login } from '../controllers/userController.js';
+import { login ,check} from '../controllers/userController.js';
 import { forgetPassword } from '../controllers/userController.js';
 import { resetPassword } from '../controllers/userController.js';
 import { updatePassword } from '../controllers/userController.js';
@@ -17,6 +17,8 @@ const router = express.Router();
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
+router.get('/check',check)
 
 router.post('/register', register);
 

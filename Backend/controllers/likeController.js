@@ -38,11 +38,9 @@ export const addLike = async (req, res) => {
             CommentId: commentId,
         });
         if (existingLike) {
-            return res
-                .status(400)
-                .json({
-                    message: 'You have already liked this post or comment.',
-                });
+            return res.status(400).json({
+                message: 'You have already liked this post or comment.',
+            });
         }
 
         const newLike = new Like({

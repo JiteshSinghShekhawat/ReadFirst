@@ -4,6 +4,10 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import generateJWT from '../middlewares/generateJwt.middleware.js';
 
+export const check = async (req,res) => {
+    return res.status(200).json({valid : true}); 
+}
+
 export const register = async (req, res) => {
     const { userName, email, password, fullName } = req.body;
     if (!password || !userName || !email || !fullName) {
@@ -88,7 +92,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
         return res.status(401).json({
             valid: false,
-            message: 'Please Correct Password',
+            message: 'Please Enter Correct Password',
         });
     }
 
@@ -243,17 +247,17 @@ export const profilePhotoUpload = async (req, res) => {
 
 export const userNameProfilePhoto = async (req, res) => {
     const { userName } = req.params;
+    console.log(userName); 
     try {
         const user = await User.findOne({ userName });
 
         if (!user) {
             return res.status(404).send('User not found');
         }
-
+        
         if (!user.profilePicture || !user.profilePicture.data) {
-            return res.status(200).send(null);
+            return res.status(200).send('Jitesh');
         }
-
         res.contentType(user.profilePicture.contentType);
         res.send(user.profilePicture.data);
     } catch (e) {
@@ -271,9 +275,8 @@ export const getProfilePhoto = async (req, res) => {
         }
 
         if (!user.profilePicture || !user.profilePicture.data) {
-            return res.status(200).send(null);
+            return res.status(200).json({"boom":"jitesh"});
         }
-
         res.contentType(user.profilePicture.contentType);
         res.send(user.profilePicture.data);
     } catch (e) {

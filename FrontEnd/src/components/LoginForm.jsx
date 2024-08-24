@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Notification from './Notification';
 
-// use form hook
-// use transition hook
-
-const LoginForm = ({ setFlag }) => {
+const LoginForm = ({ notification, setNotification }) => {
     const [input, setInput] = useState('');
     const [password, setPassword] = useState('');
-    const [notification, setNotification] = useState(''); 
+    const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -18,26 +16,35 @@ const LoginForm = ({ setFlag }) => {
             return;
         }
 
-        try{
-            const response = await fetch('http://localhost:8000/login',{
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json', 
-                },
-                body: JSON.stringify({
-                    input, 
-                    password
-                }),
-            }); 
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URI}/login`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        input,
+                        password,
+                    }),
+                }
+            );
 
-            const data = await response.json(); 
+            const data = await response.json();
 
-            setNotification(''); 
-            setTimeout(()=>{
-                setNotification(data.message); 
-            },10); 
-        }catch(e){
-            console.log(e); 
+            setNotification('');
+            setTimeout(() => {
+                setNotification(data.message);
+            }, 10);
+
+            if (data.valid) {
+                const token = data.token;
+                localStorage.setItem('jwt', token);
+                navigate('/home');
+            }
+        } catch (e) {
+            console.log(e);
         }
     };
 
@@ -78,19 +85,13 @@ const LoginForm = ({ setFlag }) => {
                 dont' have an account ?{' '}
                 <span
                     onClick={() => {
-                        setFlag(false);
+                        navigate('/signup')
                     }}
                     className="text-black font-medium cursor-pointer"
                 >
                     Register
                 </span>
             </p>
-            {notification && (
-                <Notification
-                message={notification}
-                onClose={() => setNotification('')}
-                />
-            )}
         </div>
     );
 };

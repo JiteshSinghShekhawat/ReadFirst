@@ -1,49 +1,62 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Notification from './Notification';
 
-function SignupForm({ setFlag }) {
+function SignupForm({ notification, setNotification }) {
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [fullName, setFullName] = useState('');
     const [password, setPassword] = useState('');
     const [cnfPassword, setCnfPassword] = useState('');
-    const [notification,setNotification] = useState(''); 
+    const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         e.preventDefault();
         setNotification('');
-        if(!userName || !email || !fullName || !password || !cnfPassword){
+        if (!userName || !email || !fullName || !password || !cnfPassword) {
             setTimeout(() => {
                 setNotification('Please fill in all fields.');
-            }, 10); 
-            return ; 
+            }, 10);
+            return;
         }
-        if(password !== cnfPassword){
+        if (password !== cnfPassword) {
             setTimeout(() => {
-                setNotification("The passwords entered don't match. Please make sure both passwords are identical."); 
-            },10)
-            return ; 
+                setNotification(
+                    "The passwords entered don't match. Please make sure both passwords are identical."
+                );
+            }, 10);
+            return;
         }
         try {
-            const response = await fetch(`http://localhost:8000/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userName,
-                    email,
-                    fullName,
-                    password,
-                }),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URI}/register`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userName,
+                        email,
+                        fullName,
+                        password,
+                    }),
+                }
+            );
 
-            const data = await response.json(); 
+            const data = await response.json();
             setTimeout(() => {
-                setNotification(data.message); 
-            },10)
-            console.log(data); 
-        }catch(e){console.log(e); }
+                setNotification(data.message);
+            }, 10);
+
+            if (data.valid) {
+                const token = data.token;
+                localStorage.setItem('jwt', token);
+                navigate('/home');
+            }
+        } catch (e) {
+            console.log(e);
+        }
     };
     return (
         <div className="w-full text-center">
@@ -93,7 +106,9 @@ function SignupForm({ setFlag }) {
                     name=""
                     id=""
                 />
-                <h2 className="text-lg font-medium pl-1 pt-1">Confirm Password</h2>
+                <h2 className="text-lg font-medium pl-1 pt-1">
+                    Confirm Password
+                </h2>
                 <input
                     placeholder="Enter Password Again "
                     onChange={(e) => {
@@ -119,20 +134,13 @@ function SignupForm({ setFlag }) {
                 already have account ?{' '}
                 <span
                     onClick={() => {
-                        setFlag(true);
+                        navigate('/login'); 
                     }}
                     className="text-black font-medium cursor-pointer"
                 >
                     Log In
                 </span>
             </p>
-            {
-                notification && <Notification
-                    message = {notification}
-                    duration={6000}
-                    onClick = {()=>setNotification('')}
-                />
-            }
         </div>
     );
 }
