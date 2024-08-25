@@ -134,7 +134,7 @@ function SignupForm({ notification, setNotification }) {
                 already have account ?{' '}
                 <span
                     onClick={() => {
-                        navigate('/login'); 
+                        navigate('/login');
                     }}
                     className="text-black font-medium cursor-pointer"
                 >

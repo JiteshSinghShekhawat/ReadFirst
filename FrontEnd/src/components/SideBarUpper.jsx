@@ -10,9 +10,7 @@ function SideBarUpper({ goToHome, arrow, setArrow }) {
                     {arrow == 1 && (
                         <img className="h-full" src="./arrow.png" alt="" />
                     )}
-                    {arrow == 2 && (
-                        <div className='w-2'></div>
-                    )}
+                    {arrow == 2 && <div className="w-2"></div>}
                 </div>
                 <div
                     className="cursor-pointer"
@@ -25,9 +23,7 @@ function SideBarUpper({ goToHome, arrow, setArrow }) {
             </div>
             <div className="flex mt-3 items-center gap-2">
                 <div className="h-2">
-                  {arrow == 1 && (
-                        <div className='w-2'></div>
-                    )}
+                    {arrow == 1 && <div className="w-2"></div>}
                     {arrow == 2 && (
                         <img className="h-full" src="./arrow.png" alt="" />
                     )}

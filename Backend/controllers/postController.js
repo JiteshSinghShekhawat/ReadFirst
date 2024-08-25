@@ -29,24 +29,15 @@ export const getPost = async (req, res) => {
             },
             { $unwind: '$Author' },
             {
-                $lookup: {
-                    from: 'tags',
-                    localField: 'Tags',
-                    foreignField: '_id',
-                    as: 'Tags',
-                },
-            },
-            {
                 $project: {
-                    Title: 1,
+                    Title: 1, 
                     Content: 1,
                     LikeCount: 1,
+                    userName: '$Author.userName', 
                     createdAt: 1,
-                    updatedAt: 1,
-                    'Author.userName': 1,
-                    'Tags.tagName': 1,
                 },
             },
+            { $sort : {createdAt: -1}},
         ]);
 
         const options = {
@@ -61,6 +52,8 @@ export const getPost = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+
 
 export const uploadPost = async (req, res) => {
     try {

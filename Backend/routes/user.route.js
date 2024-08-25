@@ -18,7 +18,7 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.get('/check',check)
+router.get('/check',jwtValid, check)
 
 router.post('/register', register);
 

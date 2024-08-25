@@ -19,7 +19,7 @@ function Search({ onSearch }) {
             <input
                 className="py-2 px-3 border-gray-200 border-2 rounded-2xl"
                 type="search"
-                placeholder={'  Search  🔎'}
+                placeholder={'⌕  Search'}
                 value={query}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}

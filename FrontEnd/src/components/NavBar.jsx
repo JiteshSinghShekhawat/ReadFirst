@@ -12,11 +12,14 @@ function NavBar({ goToHome, logo, search }) {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await fetch('http://localhost:8000/profile', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                const response = await fetch(
+                    `${import.meta.env.VITE_API_URI}/profile`,
+                    {   
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
                 const data = await response.json();
                 setUser(data);
@@ -34,7 +37,7 @@ function NavBar({ goToHome, logo, search }) {
     }
 
     return (
-        <div className="flex justify-center h-14">
+        <div className="w-full flex-none flex justify-center h-14">
             {logo && <Logo goToHome={goToHome} />}
             {search && user && user.valid != false && (
                 <div className="ml-5 flex-1 flex items-center justify-start ">
@@ -56,7 +59,7 @@ function NavBar({ goToHome, logo, search }) {
                 </div>
             )}
             {user && user.valid != false && (
-                <div className="flex-1 flex justify-end items-center">
+                <div className="flex-1 flex w-full justify-end items-center">
                     <CornerProfile user={user} />
                 </div>
             )}

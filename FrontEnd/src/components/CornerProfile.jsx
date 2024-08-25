@@ -1,9 +1,16 @@
 import React from 'react';
 
 function CornerProfile({ user }) {
+    const logOut = () => {
+        localStorage.removeItem('jwt');
+        window.location.reload();
+    };
     return (
         <>
-            <div className="mr-5 flex items-center justify-center cursor-pointer">
+            <div
+                onClick={logOut}
+                className="mr-5 flex items-center justify-center cursor-pointer"
+            >
                 <div className="flex-1">
                     <img className="w-5" src="./write.png" alt="" />
                 </div>

@@ -85,7 +85,7 @@ const LoginForm = ({ notification, setNotification }) => {
                 dont' have an account ?{' '}
                 <span
                     onClick={() => {
-                        navigate('/signup')
+                        navigate('/signup');
                     }}
                     className="text-black font-medium cursor-pointer"
                 >
