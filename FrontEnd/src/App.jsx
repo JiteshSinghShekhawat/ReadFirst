@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Post from './pages/Post';
 import Auth from './pages/Auth';
+import Write from './pages/Write';
 import Notification from './components/Notification';
 import Home from './pages/Home';
 
@@ -42,7 +43,8 @@ const App = () => {
                         />
                     }
                 />
-                <Route path='/post/:id' element={ <Post />}/>
+                <Route path="/post/:id" element={<Post />} />
+                <Route path="/post" element={<Write />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/" element={<Home />} />
             </Routes>

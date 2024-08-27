@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function Auth({ notification, setNotification, flag }) {
     const navigate = useNavigate();
     const check = async () => {
-        try{
+        try {
             const jwt = localStorage.getItem('jwt');
             if (jwt) {
                 const response = await fetch(
@@ -18,18 +18,18 @@ function Auth({ notification, setNotification, flag }) {
                         },
                     }
                 );
-    
+
                 const data = await response.json();
-    
+
                 if (data.valid) {
                     navigate('/');
                 } else {
                     localStorage.removeItem('jwt');
                 }
             }
-        }catch(e){
+        } catch (e) {
             console.log(e);
-        } 
+        }
     };
     check();
     return (

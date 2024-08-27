@@ -8,12 +8,14 @@ export const addLike = async (req, res) => {
         const { postId, commentId } = req.body;
         const userId = req.user.id;
 
+        if(!userId){
+            return res.status(400); 
+        }
         if (!postId && !commentId) {
             return res.status(400).json({
                 message: 'Please Like Valid Entity',
             });
         }
-
         const user = await User.findById(userId);
         if (!user) {
             return res.status(400).json({ message: 'Invalid user ID.' });
@@ -38,9 +40,8 @@ export const addLike = async (req, res) => {
             CommentId: commentId,
         });
         if (existingLike) {
-            return res.status(400).json({
-                message: 'You have already liked this post or comment.',
-            });
+            removeLike(req,res); 
+            return ; 
         }
 
         const newLike = new Like({
@@ -64,7 +65,7 @@ export const addLike = async (req, res) => {
     }
 };
 
-export const removeLike = async (req, res) => {
+const removeLike = async (req,res) => {
     try {
         const { postId, commentId } = req.body;
         const userId = req.user.id;

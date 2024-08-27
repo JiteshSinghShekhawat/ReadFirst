@@ -8,11 +8,6 @@ const Home = () => {
     const [search, setSearch] = useState(false);
     const [arrow, setArrow] = useState(1);
 
-    const goToHome = () => {
-        setLogo(false);
-        setSearch(false);
-    };
-
     useEffect(() => {
         if (arrow == 1) {
             setLogo(false);
@@ -26,14 +21,10 @@ const Home = () => {
     return (
         <div className="flex h-screen max-w-screen min-w-[50rem] min-h-[30rem]">
             <div className="flex-none basis-1/5 min-w-[15rem] flex flex-col">
-                <SideBar
-                    goToHome={goToHome}
-                    arrow={arrow}
-                    setArrow={setArrow}
-                />
+                <SideBar arrow={arrow} setArrow={setArrow} />
             </div>
             <div className="flex-1 flex flex-col">
-                <NavBar goToHome={goToHome} logo={logo} search={search} />
+                <NavBar logo={logo} search={search} />
                 <div className="flex-1 overflow-y-scroll">
                     <PostList />
                 </div>

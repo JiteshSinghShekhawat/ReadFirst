@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import CornerProfile from './CornerProfile';
 import Logo from './Logo';
 
-function NavBar({ goToHome, logo, search }) {
+function NavBar({ logo, search, write = true }) {
     const token = localStorage.getItem('jwt');
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ function NavBar({ goToHome, logo, search }) {
             try {
                 const response = await fetch(
                     `${import.meta.env.VITE_API_URI}/profile`,
-                    {   
+                    {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -38,7 +38,7 @@ function NavBar({ goToHome, logo, search }) {
 
     return (
         <div className="w-full flex-none flex justify-center h-14">
-            {logo && <Logo goToHome={goToHome} />}
+            {logo && <Logo />}
             {search && user && user.valid != false && (
                 <div className="ml-5 flex-1 flex items-center justify-start ">
                     <Search />
@@ -60,7 +60,7 @@ function NavBar({ goToHome, logo, search }) {
             )}
             {user && user.valid != false && (
                 <div className="flex-1 flex w-full justify-end items-center">
-                    <CornerProfile user={user} />
+                    <CornerProfile user={user} write={write} />
                 </div>
             )}
         </div>

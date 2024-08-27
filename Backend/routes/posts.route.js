@@ -14,7 +14,7 @@ import { Tag } from '../models/tag.models.js';
 const router = express.Router();
 
 router.use('/comments', commentRoute);
-router.use('/like', likeRoute);
+router.use('/like',jwtValid, likeRoute);
 
 router.get('/', getPost);
 router.get('/:postId', getPostById);
